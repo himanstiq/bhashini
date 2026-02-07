@@ -1,42 +1,325 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Audio Data Page */
+.audio-data-page {
   padding: 2rem;
+  max-width: 100%;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+/* Loading and Error States */
+.loading,
+.error-container {
   text-align: center;
+  padding: 3rem;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.error {
+  color: #ff6b6b;
+  margin-bottom: 1rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Table Styles */
+.table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background-color: #1a1a1a;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.audio-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
 }
 
-.card {
-  padding: 2em;
+.audio-table thead {
+  background-color: #2a2a2a;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-.read-the-docs {
+.audio-table th {
+  padding: 1rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+  border-bottom: 2px solid #444;
+}
+
+.audio-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #333;
+  vertical-align: middle;
+}
+
+.audio-table tbody tr:hover {
+  background-color: #2a2a2a;
+}
+
+.audio-table .no-records {
+  text-align: center;
+  padding: 3rem;
   color: #888;
+}
+
+.transcription-cell {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.audio-cell {
+  min-width: 200px;
+}
+
+.actions-cell {
+  white-space: nowrap;
+}
+
+.actions-cell button {
+  margin-right: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+/* Button Styles */
+.btn-primary {
+  background-color: #646cff;
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #535bf2;
+}
+
+.btn-secondary {
+  background-color: #444;
+  color: white;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #555;
+}
+
+.btn-edit {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+}
+
+.btn-edit:hover {
+  background-color: #45a049;
+  border-color: #45a049;
+}
+
+.btn-delete {
+  background-color: #f44336;
+  color: white;
+  border: none;
+}
+
+.btn-delete:hover {
+  background-color: #da190b;
+  border-color: #da190b;
+}
+
+/* Audio Player */
+.audio-player {
+  width: 100%;
+  max-width: 250px;
+}
+
+.audio-load-button {
+  background-color: #646cff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+
+.audio-load-button:hover:not(:disabled) {
+  background-color: #535bf2;
+}
+
+.audio-load-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.audio-player-error {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+}
+
+/* File Upload */
+.file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.file-input {
+  font-size: 0.85rem;
+  padding: 0.25rem;
+}
+
+.upload-button {
+  background-color: #646cff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+
+.upload-button:hover:not(:disabled) {
+  background-color: #535bf2;
+}
+
+.upload-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.upload-progress {
+  font-size: 0.85rem;
+  color: #4CAF50;
+}
+
+.upload-error {
+  font-size: 0.85rem;
+  color: #ff6b6b;
+}
+
+.upload-pending {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background-color: #1a1a1a;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid #444;
+}
+
+.modal-content h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+/* Record Form */
+.record-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group-full {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Light Mode */
+@media (prefers-color-scheme: light) {
+  .table-container {
+    border-color: #ddd;
+    background-color: white;
+  }
+
+  .audio-table thead {
+    background-color: #f5f5f5;
+  }
+
+  .audio-table th {
+    border-bottom-color: #ddd;
+  }
+
+  .audio-table td {
+    border-bottom-color: #eee;
+  }
+
+  .audio-table tbody tr:hover {
+    background-color: #f9f9f9;
+  }
+
+  .modal-content {
+    background-color: white;
+    border-color: #ddd;
+  }
+
+  .btn-secondary {
+    background-color: #e0e0e0;
+    color: #333;
+  }
+
+  .btn-secondary:hover {
+    background-color: #d0d0d0;
+  }
 }
