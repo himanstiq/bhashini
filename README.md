@@ -7,22 +7,32 @@ A full-stack audio data management application with a persistent table UI. Built
 **Important:** This application requires **both backend and frontend servers** to be running simultaneously.
 
 ```bash
-# 1. Install all dependencies
-npm install
-cd server && npm install && cd ..
+# 1. Clone the repository (if you haven't already)
+git clone <repository-url>
+cd bhashini
 
-# 2. Set up environment variables
+# 2. Install frontend dependencies
+npm install
+
+# 3. Install backend dependencies
+cd server
+npm install
+cd ..
+
+# 4. Set up environment variables
 cp .env.example .env
 # Edit .env with your database and AWS credentials
 
-# 3. Create database
+# 5. Create database
 createdb bhashini
 
-# 4. Run both servers with one command
+# 6. Run both servers with one command
 npm run dev:all
 ```
 
 The application will be available at `http://localhost:5173`
+
+**Note:** If you get "Missing script: dev:all" error, make sure you ran `npm install` in step 2.
 
 ## Features
 
@@ -377,6 +387,36 @@ npm run build
 The compiled files will be in the `server/dist/` directory.
 
 ## Troubleshooting
+
+### Missing Script Error: "dev:all"
+
+**Error Message:**
+```
+npm error Missing script: "dev:all"
+```
+
+**Cause:** Dependencies are not installed. The `dev:all` script requires the `concurrently` package.
+
+**Solution:**
+1. Install frontend dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Install backend dependencies:
+   ```bash
+   cd server && npm install && cd ..
+   ```
+
+3. Verify the script is now available:
+   ```bash
+   npm run dev:all
+   ```
+
+**Note:** This error commonly occurs when:
+- You just cloned the repository
+- You pulled new changes that added dependencies
+- Your `node_modules` folder was deleted or is out of sync
 
 ### Vite Proxy Error: ECONNREFUSED
 
