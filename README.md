@@ -388,6 +388,30 @@ The compiled files will be in the `server/dist/` directory.
 
 ## Troubleshooting
 
+### "concurrently is not recognized" Error (Windows)
+
+**Error Message:**
+```
+'concurrently' is not recognized as an internal or external command,
+operable program or batch file.
+```
+
+**Cause:** This was an issue in older versions where the script called `concurrently` directly instead of using `npx`.
+
+**Solution:**
+1. Make sure you have the latest version of `package.json` (should use `npx concurrently`)
+2. If you see this error, pull the latest changes:
+   ```bash
+   git pull
+   ```
+3. Reinstall dependencies:
+   ```bash
+   npm install
+   ```
+4. The script should now work on Windows, Mac, and Linux
+
+**Technical Note:** The `dev:all` script now uses `npx concurrently` which is cross-platform compatible and works on all operating systems.
+
 ### Missing Script Error: "dev:all"
 
 **Error Message:**

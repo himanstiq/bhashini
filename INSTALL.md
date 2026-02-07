@@ -2,6 +2,8 @@
 
 This guide helps you set up the Bhashini audio data management application.
 
+**Platform Support:** ✅ Windows | ✅ macOS | ✅ Linux
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
@@ -106,6 +108,26 @@ http://localhost:5173
 ```
 
 ## Common Installation Issues
+
+### "concurrently is not recognized" (Windows)
+
+**Error:** `'concurrently' is not recognized as an internal or external command`
+
+**Cause:** Older version of the script or missing dependencies
+
+**Solution:**
+```bash
+# Pull latest changes
+git pull
+
+# Reinstall dependencies
+npm install
+
+# Now try again
+npm run dev:all
+```
+
+**Note:** The application is now fully cross-platform compatible (Windows, Mac, Linux).
 
 ### "Missing script: dev:all"
 
