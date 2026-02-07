@@ -10,20 +10,53 @@ const API_BASE_URL = '/api';
 
 const handleResponse = async <T>(response: Response): Promise<T> => {
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ error: 'Request failed' }));
+    // Try to parse error as JSON, but handle cases where it's not JSON
+    let errorData;
+    const contentType = response.headers.get('content-type');
     
-    // Extract detailed error information
-    let errorMessage = error.error || `HTTP error! status: ${response.status}`;
+    try {
+      if (contentType && contentType.includes('application/json')) {
+        errorData = await response.json();
+      } else {
+        // Not JSON, might be HTML or plain text
+        const text = await response.text();
+        console.error('Non-JSON error response:', text);
+        errorData = { error: 'Server error (non-JSON response)' };
+      }
+    } catch (parseError) {
+      console.error('Failed to parse error response:', parseError);
+      errorData = { error: 'Request failed' };
+    }
+    
+    // Build detailed error message
+    let errorMessage = errorData.error || `HTTP ${response.status}`;
+    
+    // Add status code for clarity
+    if (!errorMessage.includes(response.status.toString())) {
+      errorMessage = `${errorMessage} (${response.status})`;
+    }
     
     // If backend provided details, include them
-    if (error.details) {
-      errorMessage += `: ${error.details}`;
+    if (errorData.details) {
+      errorMessage += `: ${errorData.details}`;
     }
     
     // If backend provided a hint, include it
-    if (error.hint) {
-      errorMessage += ` (${error.hint})`;
+    if (errorData.hint) {
+      errorMessage += `\n💡 ${errorData.hint}`;
     }
+    
+    // Add generic troubleshooting for 500 errors
+    if (response.status === 500 && !errorData.hint) {
+      errorMessage += '\n💡 Check the browser console and backend logs for details. Run "npm run check" to verify your setup.';
+    }
+    
+    // Log to console for debugging
+    console.error('API Error:', {
+      status: response.status,
+      url: response.url,
+      error: errorData
+    });
     
     throw new Error(errorMessage);
   }

@@ -541,6 +541,42 @@ Error loading records: Error: Failed to fetch records: <error details>
 
 **Pro Tip:** Run `npm run check` to verify your .env file has real values (not placeholders)!
 
+### Health Check Endpoint
+
+You can check if the backend is running and properly configured:
+
+```bash
+curl http://localhost:3001/health
+```
+
+**Example healthy response:**
+```json
+{
+  "status": "ok",
+  "timestamp": "2026-02-07T02:36:00.000Z",
+  "uptime": 123.45,
+  "environment": {
+    "nodeVersion": "v18.x.x",
+    "port": 3001
+  },
+  "database": "connected"
+}
+```
+
+**Example degraded response (database issue):**
+```json
+{
+  "status": "degraded",
+  "database": "disconnected",
+  "databaseError": "connect ECONNREFUSED 127.0.0.1:5432"
+}
+```
+
+This helps diagnose whether:
+- ✅ Backend is running
+- ✅ Database is connected
+- ❌ What specific error is occurring
+
 ### Database Connection Issues
 
 - Verify PostgreSQL is running: `pg_isready`

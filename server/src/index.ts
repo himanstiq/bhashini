@@ -24,9 +24,40 @@ app.use(cors());
 app.use(express.json());
 app.use('/api', limiter); // Apply rate limiting to all API routes
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok' });
+// Health check endpoint with diagnostics
+app.get('/health', async (req, res) => {
+  const health: {
+    status: string;
+    timestamp: string;
+    uptime: number;
+    environment: {
+      nodeVersion: string;
+      port: string | number;
+    };
+    database?: string;
+    databaseError?: string;
+  } = {
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: {
+      nodeVersion: process.version,
+      port: PORT,
+    }
+  };
+  
+  // Check database connection
+  try {
+    const { default: pool } = await import('./db/pool.js');
+    await pool.query('SELECT 1');
+    health.database = 'connected';
+  } catch (error) {
+    health.database = 'disconnected';
+    health.status = 'degraded';
+    health.databaseError = error instanceof Error ? error.message : 'Unknown error';
+  }
+  
+  res.json(health);
 });
 
 // Routes

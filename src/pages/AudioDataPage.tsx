@@ -27,9 +27,26 @@ const AudioDataPage = () => {
       let errorMessage = 'Failed to load records';
       
       if (err instanceof Error) {
+        // Network error - backend not reachable
         if (err.message.includes('Failed to fetch') || err.message.includes('fetch')) {
-          errorMessage = 'Cannot connect to backend server. Please ensure the backend is running on port 3001. Run "npm run dev:all" to start both servers.';
-        } else {
+          errorMessage = '❌ Cannot connect to backend server.\n\n' +
+            '🔧 Troubleshooting:\n' +
+            '1. Check if backend is running: cd server && npm run dev\n' +
+            '2. Or run both servers: npm run dev:all\n' +
+            '3. Run setup check: npm run check';
+        } 
+        // 500 error - backend running but has issues
+        else if (err.message.includes('500')) {
+          errorMessage = '❌ Backend server error (500).\n\n' +
+            err.message + '\n\n' +
+            '🔧 Common causes:\n' +
+            '• PostgreSQL not running\n' +
+            '• Database not created (run: createdb bhashini)\n' +
+            '• Wrong credentials in .env file\n' +
+            '• Check backend terminal for detailed errors';
+        } 
+        // Other errors
+        else {
           errorMessage = err.message;
         }
       }
@@ -111,7 +128,7 @@ const AudioDataPage = () => {
   if (error) {
     return (
       <div className="error-container">
-        <p className="error">{error}</p>
+        <pre className="error">{error}</pre>
         <button onClick={loadRecords} className="btn-primary">
           Retry
         </button>

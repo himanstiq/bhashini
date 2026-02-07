@@ -31,6 +31,15 @@
 .error {
   color: #ff6b6b;
   margin-bottom: 1rem;
+  white-space: pre-wrap;
+  text-align: left;
+  font-family: 'Courier New', monospace;
+  background-color: rgba(255, 107, 107, 0.1);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #ff6b6b;
+  max-width: 800px;
+  margin: 0 auto 1rem auto;
 }
 
 /* Table Styles */
