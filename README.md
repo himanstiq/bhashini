@@ -2,6 +2,28 @@
 
 A full-stack audio data management application with a persistent table UI. Built with React 19 + TypeScript (Vite) frontend, Node.js + Express + TypeScript backend, PostgreSQL database, and AWS S3 storage.
 
+## ⚡ Quick Start
+
+**Important:** This application requires **both backend and frontend servers** to be running simultaneously.
+
+```bash
+# 1. Install all dependencies
+npm install
+cd server && npm install && cd ..
+
+# 2. Set up environment variables
+cp .env.example .env
+# Edit .env with your database and AWS credentials
+
+# 3. Create database
+createdb bhashini
+
+# 4. Run both servers with one command
+npm run dev:all
+```
+
+The application will be available at `http://localhost:5173`
+
 ## Features
 
 - 📊 Comprehensive audio metadata management
@@ -139,9 +161,21 @@ cd ..
 
 ### 5. Running the Application
 
-You need to run both the backend and frontend servers.
+**⚠️ IMPORTANT**: Both backend and frontend servers must be running for the application to work.
 
-#### Terminal 1 - Backend Server
+#### Option A: Run Both Servers with One Command (Recommended)
+
+```bash
+npm run dev:all
+```
+
+This will start both the backend (port 3001) and frontend (port 5173) servers simultaneously with color-coded output.
+
+#### Option B: Run Servers Separately
+
+If you prefer to run them in separate terminals:
+
+**Terminal 1 - Backend Server**
 
 ```bash
 cd server
@@ -150,7 +184,7 @@ npm run dev
 
 The backend will start on `http://localhost:3001`
 
-#### Terminal 2 - Frontend Server
+**Terminal 2 - Frontend Server**
 
 ```bash
 npm run dev
@@ -286,14 +320,18 @@ Each audio record contains:
 
 ## Development Scripts
 
-### Frontend
+### Root Directory
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
+- `npm run dev:all` - **Run both backend and frontend** (recommended for development)
+- `npm run dev` - Start frontend only
+- `npm run dev:server` - Start backend only
+- `npm run build:all` - Build both backend and frontend
+- `npm run build` - Build frontend for production
+- `npm run build:server` - Build backend for production
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
 
-### Backend
+### Backend (cd server)
 
 - `npm run dev` - Start development server with hot reload
 - `npm run build` - Compile TypeScript to JavaScript
@@ -340,11 +378,43 @@ The compiled files will be in the `server/dist/` directory.
 
 ## Troubleshooting
 
+### Vite Proxy Error: ECONNREFUSED
+
+**Error Message:**
+```
+[vite] http proxy error: /api/records
+AggregateError [ECONNREFUSED]
+```
+
+**Cause:** The backend server is not running, but the frontend is trying to connect to it.
+
+**Solution:**
+1. Make sure you're running both servers:
+   ```bash
+   npm run dev:all
+   ```
+   
+2. Or verify the backend is running separately:
+   ```bash
+   cd server && npm run dev
+   ```
+
+3. Check that the backend is listening on port 3001:
+   ```bash
+   lsof -i :3001
+   ```
+
+4. If the backend won't start, check:
+   - Database connection (PostgreSQL must be running)
+   - `.env` file exists and has correct DATABASE_URL
+   - All environment variables are set
+
 ### Database Connection Issues
 
 - Verify PostgreSQL is running: `pg_isready`
 - Check DATABASE_URL in .env file
 - Ensure database exists: `psql -l | grep bhashini`
+- Create database if missing: `createdb bhashini`
 
 ### S3 Upload Issues
 

@@ -24,7 +24,17 @@ const AudioDataPage = () => {
       const data = await fetchRecords();
       setRecords(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load records');
+      let errorMessage = 'Failed to load records';
+      
+      if (err instanceof Error) {
+        if (err.message.includes('Failed to fetch') || err.message.includes('fetch')) {
+          errorMessage = 'Cannot connect to backend server. Please ensure the backend is running on port 3001. Run "npm run dev:all" to start both servers.';
+        } else {
+          errorMessage = err.message;
+        }
+      }
+      
+      setError(errorMessage);
       console.error('Error loading records:', err);
     } finally {
       setLoading(false);
