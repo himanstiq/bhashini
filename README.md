@@ -19,18 +19,23 @@ cd server
 npm install
 cd ..
 
-# 4. Set up environment variables
+# 4. Run setup check (optional but recommended)
+npm run check
+
+# 5. Set up environment variables
 cp .env.example .env
 # Edit .env with your database and AWS credentials
 
-# 5. Create database
+# 6. Create database
 createdb bhashini
 
-# 6. Run both servers with one command
+# 7. Run both servers with one command
 npm run dev:all
 ```
 
 The application will be available at `http://localhost:5173`
+
+**💡 Tip:** Run `npm run check` before starting to verify your setup is correct!
 
 **Note:** If you get "Missing script: dev:all" error, make sure you ran `npm install` in step 2.
 
@@ -332,6 +337,7 @@ Each audio record contains:
 
 ### Root Directory
 
+- `npm run check` - **Verify setup before running** (checks dependencies, .env, etc.)
 - `npm run dev:all` - **Run both backend and frontend** (recommended for development)
 - `npm run dev` - Start frontend only
 - `npm run dev:server` - Start backend only
@@ -450,28 +456,38 @@ npm error Missing script: "dev:all"
 AggregateError [ECONNREFUSED]
 ```
 
-**Cause:** The backend server is not running, but the frontend is trying to connect to it.
+**Cause:** The backend server is not running or failed to start.
 
 **Solution:**
-1. Make sure you're running both servers:
+
+1. **First, run the setup check:**
    ```bash
-   npm run dev:all
+   npm run check
    ```
-   
-2. Or verify the backend is running separately:
+   This will tell you exactly what's missing.
+
+2. **Common fixes:**
+   - Backend dependencies not installed: `cd server && npm install`
+   - Frontend dependencies not installed: `npm install`
+   - Missing .env file: `cp .env.example .env` (then configure it)
+   - Database not running: Start PostgreSQL
+
+3. **Verify backend is running separately:**
    ```bash
    cd server && npm run dev
    ```
-
-3. Check that the backend is listening on port 3001:
+   
+4. **Check that the backend is listening on port 3001:**
    ```bash
    lsof -i :3001
    ```
 
-4. If the backend won't start, check:
-   - Database connection (PostgreSQL must be running)
-   - `.env` file exists and has correct DATABASE_URL
-   - All environment variables are set
+5. **Make sure both servers are running:**
+   ```bash
+   npm run dev:all
+   ```
+
+**Pro Tip:** Always run `npm run check` first to catch setup issues early!
 
 ### Database Connection Issues
 

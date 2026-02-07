@@ -75,7 +75,23 @@ CREATE DATABASE bhashini;
 
 The database schema will be created automatically when the server starts for the first time.
 
-### 5. Run the Application
+### 5. Verify Setup (Recommended)
+
+Before running the application, verify your setup:
+
+```bash
+npm run check
+```
+
+This will check:
+- ✅ Frontend dependencies installed
+- ✅ Backend dependencies installed
+- ✅ .env file exists
+- ✅ All required packages available
+
+Fix any issues reported before proceeding.
+
+### 6. Run the Application
 
 **Option A: Run both servers together (Recommended)**
 
@@ -100,7 +116,7 @@ Terminal 2 (Frontend):
 npm run dev
 ```
 
-### 6. Access the Application
+### 7. Access the Application
 
 Open your browser and navigate to:
 ```
