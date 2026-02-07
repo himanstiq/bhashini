@@ -26,8 +26,15 @@ npm run check
 cp .env.example .env
 # Edit .env with your database and AWS credentials
 
-# 6. Create database
+# 6. Create database (choose one method)
+# Option A: Using createdb (if available)
 createdb bhashini
+
+# Option B: Using psql (cross-platform)
+psql -U postgres -c "CREATE DATABASE bhashini;"
+
+# Option C: Using SQL client (pgAdmin, DBeaver, etc.)
+# Connect to PostgreSQL and run: CREATE DATABASE bhashini;
 
 # 7. Run both servers with one command
 npm run dev:all
@@ -144,16 +151,23 @@ PORT=3001
 
 ### 3. Database Setup
 
-Create a PostgreSQL database:
+Create a PostgreSQL database using one of these methods:
 
+**Using psql (recommended for Windows):**
+```bash
+psql -U postgres -c "CREATE DATABASE bhashini;"
+```
+
+**Using createdb (Linux/Mac):**
 ```bash
 createdb bhashini
 ```
 
-Or using psql:
-
-```sql
+**Using psql interactive mode:**
+```bash
+psql -U postgres
 CREATE DATABASE bhashini;
+\q
 ```
 
 The migration will run automatically when the server starts for the first time.
@@ -509,7 +523,7 @@ Error loading records: Error: Failed to fetch records: <error details>
    - Error mentions "ECONNREFUSED" or "connection refused" in backend logs
    - PostgreSQL is not running: Start it with `pg_ctl start` or `brew services start postgresql`
    - Wrong DATABASE_URL: Check `.env` file has correct connection string
-   - Database doesn't exist: Run `createdb bhashini`
+   - Database doesn't exist: Create it using `psql -U postgres -c "CREATE DATABASE bhashini;"` or `createdb bhashini`
    
    **Table Missing Error:**
    - Error mentions "relation audio_records does not exist"
@@ -582,7 +596,9 @@ This helps diagnose whether:
 - Verify PostgreSQL is running: `pg_isready`
 - Check DATABASE_URL in .env file
 - Ensure database exists: `psql -l | grep bhashini`
-- Create database if missing: `createdb bhashini`
+- Create database if missing: 
+  - Windows/Cross-platform: `psql -U postgres -c "CREATE DATABASE bhashini;"`
+  - Linux/Mac: `createdb bhashini`
 
 ### S3 Upload Issues
 

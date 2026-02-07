@@ -41,7 +41,9 @@ const AudioDataPage = () => {
             err.message + '\n\n' +
             '🔧 Common causes:\n' +
             '• PostgreSQL not running\n' +
-            '• Database not created (run: createdb bhashini)\n' +
+            '• Database not created\n' +
+            '  → Using psql: psql -U postgres -c "CREATE DATABASE bhashini;"\n' +
+            '  → Or createdb: createdb bhashini (if available)\n' +
             '• Wrong credentials in .env file\n' +
             '• Check backend terminal for detailed errors';
         } 

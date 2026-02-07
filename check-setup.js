@@ -108,7 +108,9 @@ if (checks.failed.length > 0) {
   console.log('Make sure to:');
   console.log('  1. Configure DATABASE_URL in .env with your PostgreSQL connection');
   console.log('  2. Configure AWS credentials in .env');
-  console.log('  3. Create the database: createdb bhashini');
+  console.log('  3. Create the database:');
+  console.log('     - Using psql: psql -U postgres -c "CREATE DATABASE bhashini;"');
+  console.log('     - Or using createdb: createdb bhashini (if available)');
   console.log('  4. Ensure PostgreSQL is running');
   console.log('');
   process.exit(0);

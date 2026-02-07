@@ -62,16 +62,33 @@ PORT=3001
 
 ### 4. Set Up Database
 
-Create the PostgreSQL database:
+Create the PostgreSQL database using one of these methods:
 
+**Option A: Using createdb command** (Linux/Mac, if in PATH)
 ```bash
 createdb bhashini
 ```
 
-Or using psql:
+**Option B: Using psql** (Cross-platform, recommended for Windows)
+```bash
+psql -U postgres -c "CREATE DATABASE bhashini;"
+```
+
+**Option C: Using psql interactive mode**
+```bash
+psql -U postgres
+```
+Then run:
 ```sql
 CREATE DATABASE bhashini;
+\q
 ```
+
+**Option D: Using a GUI client** (pgAdmin, DBeaver, etc.)
+- Connect to your PostgreSQL server
+- Right-click on "Databases" → "Create" → "Database"
+- Name: `bhashini`
+- Click "Save"
 
 The database schema will be created automatically when the server starts for the first time.
 
@@ -166,7 +183,10 @@ npm install
 # Check if PostgreSQL is running
 pg_isready
 
-# Create database if missing
+# Create database if missing (Windows/Cross-platform)
+psql -U postgres -c "CREATE DATABASE bhashini;"
+
+# Or using createdb (Linux/Mac, if available)
 createdb bhashini
 
 # Verify .env file exists and is configured
