@@ -11,7 +11,21 @@ const API_BASE_URL = '/api';
 const handleResponse = async <T>(response: Response): Promise<T> => {
   if (!response.ok) {
     const error = await response.json().catch(() => ({ error: 'Request failed' }));
-    throw new Error(error.error || `HTTP error! status: ${response.status}`);
+    
+    // Extract detailed error information
+    let errorMessage = error.error || `HTTP error! status: ${response.status}`;
+    
+    // If backend provided details, include them
+    if (error.details) {
+      errorMessage += `: ${error.details}`;
+    }
+    
+    // If backend provided a hint, include it
+    if (error.hint) {
+      errorMessage += ` (${error.hint})`;
+    }
+    
+    throw new Error(errorMessage);
   }
   
   if (response.status === 204) {

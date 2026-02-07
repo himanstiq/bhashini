@@ -33,7 +33,12 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
     res.json(result.rows);
   } catch (error) {
     console.error('Error fetching records:', error);
-    res.status(500).json({ error: 'Failed to fetch records' });
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch records';
+    res.status(500).json({ 
+      error: 'Failed to fetch records',
+      details: errorMessage,
+      hint: 'Check if PostgreSQL is running and DATABASE_URL is configured correctly in .env'
+    });
   }
 });
 

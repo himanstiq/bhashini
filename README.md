@@ -489,6 +489,58 @@ AggregateError [ECONNREFUSED]
 
 **Pro Tip:** Always run `npm run check` first to catch setup issues early!
 
+### 500 Internal Server Error
+
+**Error Message:**
+```
+Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+Error loading records: Error: Failed to fetch records: <error details>
+```
+
+**Cause:** The backend is running but encountering errors (database connection, missing .env configuration, etc.)
+
+**Solution:**
+
+1. **Check the backend terminal output** for detailed error messages
+
+2. **Common causes and fixes:**
+   
+   **Database Connection Error:**
+   - Error mentions "ECONNREFUSED" or "connection refused" in backend logs
+   - PostgreSQL is not running: Start it with `pg_ctl start` or `brew services start postgresql`
+   - Wrong DATABASE_URL: Check `.env` file has correct connection string
+   - Database doesn't exist: Run `createdb bhashini`
+   
+   **Table Missing Error:**
+   - Error mentions "relation audio_records does not exist"
+   - Migration didn't run: Restart the backend server (it runs migrations on startup)
+   - Check backend logs for migration errors
+   
+   **AWS Configuration Error:**
+   - Error mentions AWS or S3
+   - Missing AWS credentials in .env
+   - Invalid AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY
+   
+3. **Verify your .env configuration:**
+   ```bash
+   cat .env
+   ```
+   Make sure all values are set (not placeholder text)
+
+4. **Test database connection:**
+   ```bash
+   # Try connecting to your database
+   psql $DATABASE_URL
+   ```
+
+5. **Check backend logs** when you start the server:
+   ```bash
+   cd server && npm run dev
+   ```
+   Look for specific error messages
+
+**Pro Tip:** Run `npm run check` to verify your .env file has real values (not placeholders)!
+
 ### Database Connection Issues
 
 - Verify PostgreSQL is running: `pg_isready`
